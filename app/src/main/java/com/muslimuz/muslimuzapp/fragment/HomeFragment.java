@@ -90,33 +90,33 @@ public class HomeFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-       if(getActivity() != null){
-           headlineImg.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   Intent i = new Intent(getActivity(), NewsActivity.class);
-                   i.putExtra("news_title", getTitleBaru());
-                   i.putExtra("news_img", getImgBaru());
-                   i.putExtra("news_sumber", getSumberBaru());
-                   i.putExtra("news_tanggal", getKetDateBaru());
-                   i.putExtra("news_teks", getTeksBaru());
-                   i.putExtra("news_link", getLinkBaru());
-                   i.putExtra("news_slug", getSlugBaru());
-                   startActivity(i);
-               }
-           });
+        if (getActivity() != null) {
+            headlineImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(getActivity(), NewsActivity.class);
+                    i.putExtra("news_title", getTitleBaru());
+                    i.putExtra("news_img", getImgBaru());
+                    i.putExtra("news_sumber", getSumberBaru());
+                    i.putExtra("news_tanggal", getKetDateBaru());
+                    i.putExtra("news_teks", getTeksBaru());
+                    i.putExtra("news_link", getLinkBaru());
+                    i.putExtra("news_slug", getSlugBaru());
+                    startActivity(i);
+                }
+            });
 
 
-           lstNews = new ArrayList<>();
+            lstNews = new ArrayList<>();
 
-           recyclerView = myView.findViewById(R.id.recyclerViewid);
-           jsonRequest();
-       }
+            recyclerView = myView.findViewById(R.id.recyclerViewid);
+            jsonRequest();
+        }
 
 
     }
 
-    private void jsonRequest() {
+    public void jsonRequest() {
 
         JsonArrayRequest request = new JsonArrayRequest(WEB_URL + "/API/index.php/News/all", new Response.Listener<JSONArray>() {
             @Override
@@ -145,6 +145,7 @@ public class HomeFragment extends Fragment {
 
                     String tanggal = jsonObject.getString("tanggal");
                     String pecahTanggal[] = tanggal.split("-");
+
 
                     int tahunJson = Integer.valueOf(pecahTanggal[0]);
                     int bulanJson = Integer.valueOf(pecahTanggal[1]);
@@ -191,6 +192,8 @@ public class HomeFragment extends Fragment {
 
 
                         String pecahTanggal1[] = tanggal1.split("-");
+
+
                         int tahunJson1 = Integer.valueOf(pecahTanggal1[0]);
                         int bulanJson1 = Integer.valueOf(pecahTanggal1[1]);
                         int hariJson1 = Integer.valueOf(pecahTanggal1[2]);
@@ -223,6 +226,7 @@ public class HomeFragment extends Fragment {
 
 
                 setupRecyclerView(lstNews);
+                headlineImg.setVisibility(View.VISIBLE);
             }
         }, new Response.ErrorListener()
 
@@ -305,5 +309,6 @@ public class HomeFragment extends Fragment {
 
 
 }
+
 
 
