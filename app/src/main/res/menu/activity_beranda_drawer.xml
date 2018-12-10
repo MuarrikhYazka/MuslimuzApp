@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    tools:showIn="navigation_view">
+
+
+    <group
+        android:id="@+id/menu_top"
+        android:checkableBehavior="single">
+
+
+        <item android:title="For You">
+            <menu>
+                <item
+                    android:id="@+id/nav_most_read"
+                    android:checkable="true"
+                    android:title="Most Read" />
+            </menu>
+        </item>
+    </group>
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_Berita"
+            android:title="Berita" />
+        <item
+            android:id="@+id/nav_Iman"
+
+            android:title="Iman" />
+        <item
+            android:id="@+id/nav_Akhlak"
+
+            android:title="Akhlak" />
+        <item
+            android:id="@+id/nav_Hubungan"
+
+
+            android:title="Hubungan" />
+        <item
+            android:id="@+id/nav_Fiqih"
+
+            android:title="Fiqih" />
+        <item
+            android:id="@+id/nav_Tarikh"
+
+            android:title="Tarikh" />
+        <item
+            android:id="@+id/nav_Lainnya"
+
+            android:title="Lainnya" />
+    </group>
+
+    <group
+        android:id="@+id/menu_bottom"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_profil"
+            android:icon="@drawable/ic_person_nav"
+            android:title="Profil"></item>
+        <item
+            android:id="@+id/nav_bookmark"
+            android:icon="@drawable/ic_bookmark"
+            android:title="Tersimpan"></item>
+        <item
+            android:id="@+id/nav_pengaturan"
+            android:icon="@drawable/ic_settings"
+            android:title="Pengaturan"></item>
+    </group>
+
+</menu>
+

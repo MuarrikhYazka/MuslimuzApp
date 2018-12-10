@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/Theme.AppCompat.DayNight.NoActionBar"
+    tools:context=".activities.NewsActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbarlayout_id"
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+
+        <net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingtoolbar_id"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:collapsedTitleTextAppearance="@style/collapsed"
+            app:contentScrim="@color/primary_500"
+            app:expandedTitleMarginEnd="32dp"
+            app:expandedTitleMarginStart="32dp"
+            app:expandedTitleTextAppearance="@style/expanded"
+            app:layout_scrollFlags="exitUntilCollapsed|scroll"
+            app:maxLines="3"
+
+
+
+            app:title="News Titledasdasdasdasdasdasdasdasdaasdasdasdsaddasdas">
+
+
+            <android.support.v7.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/ThemeOverlay.AppCompat.Light"
+                app:layout_collapseMode="pin">
+
+
+            </android.support.v7.widget.Toolbar>
+
+
+            <ImageView
+
+                android:id="@+id/aa_thumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bnw"
+                android:scaleType="centerCrop"
+
+ />
+
+
+        </net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="Judul"
+                android:id="@+id/aa_judul"
+                android:textSize="12pt"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:id="@+id/aa_description"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+
+
+                android:text="Deskripsi"
+
+
+                android:textSize="8pt"
+
+
+                />
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/RelativeLayout01"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <Button style="@style/Widget.AppCompat.Button.Colored"
+                    android:id="@+id/btnReadMore"
+                    android:padding="10dp"
+                    android:background="@color/colorPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:onClick="clickReadMore"
+                    android:text="Read More"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>
