@@ -144,79 +144,86 @@ public class HomeFragment extends Fragment {
                     Glide.with(getActivity()).load(jsonObject.getString("img")).apply(opsi).into(headlineImg);
 
                     String tanggal = jsonObject.getString("tanggal");
-                    String pecahTanggal[] = tanggal.split("-");
+
+                    if (!tanggal.equals("error")){
+                        String pecahTanggal[] = tanggal.split("-");
 
 
-                    int tahunJson = Integer.valueOf(pecahTanggal[0]);
-                    int bulanJson = Integer.valueOf(pecahTanggal[1]);
-                    int hariJson = Integer.valueOf(pecahTanggal[2]);
-                    if (tahun - tahunJson == 0) {
-                        if (bulan - bulanJson == 0) {
-                            if (hari - hariJson == 0) {
-                                ketDate = "Hari ini";
+                        int tahunJson = Integer.valueOf(pecahTanggal[0]);
+                        int bulanJson = Integer.valueOf(pecahTanggal[1]);
+                        int hariJson = Integer.valueOf(pecahTanggal[2]);
+                        if (tahun - tahunJson == 0) {
+                            if (bulan - bulanJson == 0) {
+                                if (hari - hariJson == 0) {
+                                    ketDate = "Hari ini";
+                                } else {
+                                    ketDate = String.valueOf(hari - hariJson) + " hari yang lalu";
+                                }
                             } else {
-                                ketDate = String.valueOf(hari - hariJson) + " hari yang lalu";
+                                ketDate = String.valueOf(bulan - bulanJson) + " bulan yang lalu";
                             }
                         } else {
-                            ketDate = String.valueOf(bulan - bulanJson) + " bulan yang lalu";
+                            ketDate = String.valueOf(tahun - tahunJson) + " tahun yang lalu";
                         }
-                    } else {
-                        ketDate = String.valueOf(tahun - tahunJson) + " tahun yang lalu";
+
+                        headlineTanggal.setText(ketDate);
+                        textLayout.setVisibility(View.VISIBLE);
+
+                        setTitleBaru(jsonObject.getString("title"));
+                        setSumberBaru(jsonObject.getString("Sumber"));
+                        setKetDateBaru(ketDate);
+                        setTeksBaru(jsonObject.getString("teks"));
+                        setImgBaru(jsonObject.getString("img"));
+                        setLinkBaru(jsonObject.getString("link"));
+                        setSlugBaru(jsonObject.getString("slug"));
+
                     }
-
-                    headlineTanggal.setText(ketDate);
-                    textLayout.setVisibility(View.VISIBLE);
-
-                    setTitleBaru(jsonObject.getString("title"));
-                    setSumberBaru(jsonObject.getString("Sumber"));
-                    setKetDateBaru(ketDate);
-                    setTeksBaru(jsonObject.getString("teks"));
-                    setImgBaru(jsonObject.getString("img"));
-                    setLinkBaru(jsonObject.getString("link"));
-                    setSlugBaru(jsonObject.getString("slug"));
 
 
                     for (int i = 1; i < response.length() - 2; i++) {
 
                         jsonObject1 = response.getJSONObject(i);
                         News news = new News();
-                        news.setTitle(jsonObject1.getString("title"));
-                        news.setSumber(jsonObject1.getString("Sumber"));
-                        news.setImg(jsonObject1.getString("img"));
-                        news.setLink(jsonObject1.getString("link"));
-                        news.setTeks(jsonObject1.getString("teks"));
-                        news.setSlug(jsonObject1.getString("slug"));
+
+                        if(!jsonObject1.getString("tanggal").equals("error")){
+                            news.setTitle(jsonObject1.getString("title"));
+                            news.setSumber(jsonObject1.getString("Sumber"));
+                            news.setImg(jsonObject1.getString("img"));
+                            news.setLink(jsonObject1.getString("link"));
+                            news.setTeks(jsonObject1.getString("teks"));
+                            news.setSlug(jsonObject1.getString("slug"));
 
 
-                        String tanggal1 = jsonObject1.getString("tanggal");
+                            String tanggal1 = jsonObject1.getString("tanggal");
 
 
-                        String pecahTanggal1[] = tanggal1.split("-");
+                            String pecahTanggal1[] = tanggal1.split("-");
 
 
-                        int tahunJson1 = Integer.valueOf(pecahTanggal1[0]);
-                        int bulanJson1 = Integer.valueOf(pecahTanggal1[1]);
-                        int hariJson1 = Integer.valueOf(pecahTanggal1[2]);
+                            int tahunJson1 = Integer.valueOf(pecahTanggal1[0]);
+                            int bulanJson1 = Integer.valueOf(pecahTanggal1[1]);
+                            int hariJson1 = Integer.valueOf(pecahTanggal1[2]);
 
 
-                        if (tahun - tahunJson1 == 0) {
-                            if (bulan - bulanJson1 == 0) {
-                                if (hari - hariJson1 == 0) {
-                                    ketDate1 = "Hari ini";
+                            if (tahun - tahunJson1 == 0) {
+                                if (bulan - bulanJson1 == 0) {
+                                    if (hari - hariJson1 == 0) {
+                                        ketDate1 = "Hari ini";
+                                    } else {
+                                        ketDate1 = String.valueOf(hari - hariJson1) + " hari yang lalu";
+                                    }
                                 } else {
-                                    ketDate1 = String.valueOf(hari - hariJson1) + " hari yang lalu";
+                                    ketDate1 = String.valueOf(bulan - bulanJson1) + " bulan yang lalu";
                                 }
                             } else {
-                                ketDate1 = String.valueOf(bulan - bulanJson1) + " bulan yang lalu";
+                                ketDate1 = String.valueOf(tahun - tahunJson1) + " tahun yang lalu";
                             }
-                        } else {
-                            ketDate1 = String.valueOf(tahun - tahunJson1) + " tahun yang lalu";
+
+
+                            news.setTanggal(ketDate1);
+
+                            lstNews.add(news);
                         }
-
-
-                        news.setTanggal(ketDate1);
-
-                        lstNews.add(news);
 
                     }
 
