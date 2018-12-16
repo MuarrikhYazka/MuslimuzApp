@@ -199,7 +199,7 @@ public class SearchFragment extends Fragment {
 
 
     private void setupRecyclerView(List<News> lstSearch) {
-        RecyclerViewAdapter myadaptersearch = new RecyclerViewAdapter(getActivity(), lstSearch);
+        RecyclerViewAdapter myadaptersearch = new RecyclerViewAdapter(lstSearch, getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(myadaptersearch);
     }

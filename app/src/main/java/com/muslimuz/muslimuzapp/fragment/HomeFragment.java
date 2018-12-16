@@ -6,15 +6,19 @@ import android.net.Uri;
 import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -23,6 +27,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+
 import com.muslimuz.muslimuzapp.R;
 import com.muslimuz.muslimuzapp.activities.BerandaActivity;
 import com.muslimuz.muslimuzapp.activities.NewsActivity;
@@ -53,6 +58,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     public ImageView headlineImg;
     private TextView headlineTitle, headlineSumber, headlineTanggal;
+    private int tahun, bulan, hari;
 
     private String titleBaru;
     private String imgBaru;
@@ -62,6 +68,14 @@ public class HomeFragment extends Fragment {
     private String linkBaru;
     private String ketDateBaru;
     private String slugBaru;
+    private JSONArray hasil;
+
+    LinearLayoutManager manager;
+    RecyclerViewAdapter myadapter;
+
+    Boolean isScrolling = false;
+
+    int current, total, scroll;
 
 
     @Override
@@ -77,18 +91,6 @@ public class HomeFragment extends Fragment {
         headlineSumber = myView.findViewById(R.id.headlineSumber);
         headlineTanggal = myView.findViewById(R.id.headlineTanggal);
         textLayout = myView.findViewById(R.id.textLayout);
-
-
-        return myView;
-    }
-
-
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
 
         if (getActivity() != null) {
             headlineImg.setOnClickListener(new View.OnClickListener() {
@@ -111,10 +113,19 @@ public class HomeFragment extends Fragment {
 
             recyclerView = myView.findViewById(R.id.recyclerViewid);
             jsonRequest();
+
+
         }
 
 
+        return myView;
     }
+
+
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
 
     public void jsonRequest() {
 
@@ -132,9 +143,9 @@ public class HomeFragment extends Fragment {
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                 String today = df.format(date);
                 String pecahToday[] = today.split("-");
-                int tahun = Integer.valueOf(pecahToday[0]);
-                int bulan = Integer.valueOf(pecahToday[1]);
-                int hari = Integer.valueOf(pecahToday[2]);
+                tahun = Integer.valueOf(pecahToday[0]);
+                bulan = Integer.valueOf(pecahToday[1]);
+                hari = Integer.valueOf(pecahToday[2]);
 
                 try {
                     jsonObject = response.getJSONObject(0);
@@ -145,7 +156,7 @@ public class HomeFragment extends Fragment {
 
                     String tanggal = jsonObject.getString("tanggal");
 
-                    if (!tanggal.equals("error")){
+                    if (!tanggal.equals("error")) {
                         String pecahTanggal[] = tanggal.split("-");
 
 
@@ -180,12 +191,15 @@ public class HomeFragment extends Fragment {
                     }
 
 
-                    for (int i = 1; i < response.length() - 2; i++) {
+                    for (int i = 1; i < 6; i++) {
 
                         jsonObject1 = response.getJSONObject(i);
+
                         News news = new News();
 
-                        if(!jsonObject1.getString("tanggal").equals("error")){
+                        hasil = response;
+
+                        if (!jsonObject1.getString("tanggal").equals("error")) {
                             news.setTitle(jsonObject1.getString("title"));
                             news.setSumber(jsonObject1.getString("Sumber"));
                             news.setImg(jsonObject1.getString("img"));
@@ -250,10 +264,117 @@ public class HomeFragment extends Fragment {
         requestQueue.add(request);
     }
 
-    private void setupRecyclerView(List<News> lstNews) {
-        RecyclerViewAdapter myadapter = new RecyclerViewAdapter(getActivity(), lstNews);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    private void setupRecyclerView(final List<News> lstNews) {
+
+
+        myadapter = new RecyclerViewAdapter(lstNews, getActivity());
+
+        manager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(manager);
+
         recyclerView.setAdapter(myadapter);
+
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    System.out.println(isScrolling);
+                    isScrolling = true;
+                    System.out.println(isScrolling);
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                current = manager.getChildCount();
+                total = manager.getItemCount();
+                scroll = manager.findFirstVisibleItemPosition();
+
+                System.out.println(isScrolling);
+                System.out.println(current);
+                System.out.println(total);
+                System.out.println(scroll);
+
+                if (isScrolling && (current + scroll == total)) {
+                    isScrolling = false;
+
+                    System.out.println("msk");
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            int awal = total+1;
+                            int akhir = total + 5;
+                            JSONObject jsonObject2;
+                            String ketDate3;
+
+                            try {
+
+                                for (int i = awal; i < akhir; i++) {
+
+                                    jsonObject2 = hasil.getJSONObject(i);
+
+                                    News news = new News();
+
+
+                                    if (!jsonObject2.getString("tanggal").equals("error")) {
+                                        news.setTitle(jsonObject2.getString("title"));
+                                        news.setSumber(jsonObject2.getString("Sumber"));
+                                        news.setImg(jsonObject2.getString("img"));
+                                        news.setLink(jsonObject2.getString("link"));
+                                        news.setTeks(jsonObject2.getString("teks"));
+                                        news.setSlug(jsonObject2.getString("slug"));
+
+
+                                        String tanggal1 = jsonObject2.getString("tanggal");
+
+
+                                        String pecahTanggal1[] = tanggal1.split("-");
+
+
+                                        int tahunJson1 = Integer.valueOf(pecahTanggal1[0]);
+                                        int bulanJson1 = Integer.valueOf(pecahTanggal1[1]);
+                                        int hariJson1 = Integer.valueOf(pecahTanggal1[2]);
+
+
+                                        if (tahun - tahunJson1 == 0) {
+                                            if (bulan - bulanJson1 == 0) {
+                                                if (hari - hariJson1 == 0) {
+                                                    ketDate3 = "Hari ini";
+                                                } else {
+                                                    ketDate3 = String.valueOf(hari - hariJson1) + " hari yang lalu";
+                                                }
+                                            } else {
+                                                ketDate3 = String.valueOf(bulan - bulanJson1) + " bulan yang lalu";
+                                            }
+                                        } else {
+                                            ketDate3 = String.valueOf(tahun - tahunJson1) + " tahun yang lalu";
+                                        }
+
+
+                                        news.setTanggal(ketDate3);
+
+                                        lstNews.add(news);
+                                        myadapter.notifyDataSetChanged();
+                                    }
+
+                                }
+                            } catch (JSONException e){
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }, 5000);
+
+
+                }
+
+            }
+        });
+
     }
 
 
