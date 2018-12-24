@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import com.muslimuz.muslimuzapp.R;
+import com.muslimuz.muslimuzapp.activities.BrowserActivity;
 import com.muslimuz.muslimuzapp.activities.NewsActivity;
 import com.muslimuz.muslimuzapp.model.News;
 
@@ -53,14 +54,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         viewHolder.view_container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(activity, NewsActivity.class);
-                i.putExtra("news_title", mData.get(viewHolder.getAdapterPosition()).getTitle());
-                i.putExtra("news_img", mData.get(viewHolder.getAdapterPosition()).getImg());
-                i.putExtra("news_sumber", mData.get(viewHolder.getAdapterPosition()).getSumber());
-                i.putExtra("news_tanggal", mData.get(viewHolder.getAdapterPosition()).getTanggal());
-                i.putExtra("news_teks", mData.get(viewHolder.getAdapterPosition()).getTeks());
-                i.putExtra("news_link", mData.get(viewHolder.getAdapterPosition()).getLink());
-                activity.startActivity(i);
+
+                String url = mData.get(viewHolder.getAdapterPosition()).getLink();
+                Intent intentReadMore = new Intent(activity, BrowserActivity.class);
+                intentReadMore.putExtra("url", url);
+                activity.startActivity(intentReadMore);
+
+
 
             }
         });

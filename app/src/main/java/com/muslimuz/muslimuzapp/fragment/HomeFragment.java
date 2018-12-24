@@ -30,6 +30,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 import com.muslimuz.muslimuzapp.R;
 import com.muslimuz.muslimuzapp.activities.BerandaActivity;
+import com.muslimuz.muslimuzapp.activities.BrowserActivity;
 import com.muslimuz.muslimuzapp.activities.NewsActivity;
 import com.muslimuz.muslimuzapp.adapters.RecyclerViewAdapter;
 import com.muslimuz.muslimuzapp.model.News;
@@ -96,15 +97,10 @@ public class HomeFragment extends Fragment {
             headlineImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(getActivity(), NewsActivity.class);
-                    i.putExtra("news_title", getTitleBaru());
-                    i.putExtra("news_img", getImgBaru());
-                    i.putExtra("news_sumber", getSumberBaru());
-                    i.putExtra("news_tanggal", getKetDateBaru());
-                    i.putExtra("news_teks", getTeksBaru());
-                    i.putExtra("news_link", getLinkBaru());
-                    i.putExtra("news_slug", getSlugBaru());
-                    startActivity(i);
+                    String url = getLinkBaru();
+                    Intent intentReadMore = new Intent(getActivity(), BrowserActivity.class);
+                    intentReadMore.putExtra("url", url);
+                    startActivity(intentReadMore);
                 }
             });
 

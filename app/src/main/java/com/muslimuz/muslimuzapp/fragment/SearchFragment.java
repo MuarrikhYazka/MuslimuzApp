@@ -107,10 +107,10 @@ public class SearchFragment extends Fragment {
     private void jsonRequest(String key) {
         String URL;
         if (key == null || key.equals("")) {
-            URL = WEB_URL + "/API/index.php/News/cari/key/a";
+            URL = WEB_URL + "/API/index.php/News/cari?key=a";
         } else {
 
-             URL = WEB_URL + "/API/index.php/News/cari/key/" + key;
+             URL = WEB_URL + "/API/index.php/News/cari?key=" + key;
         }
 
         System.out.println(URL);

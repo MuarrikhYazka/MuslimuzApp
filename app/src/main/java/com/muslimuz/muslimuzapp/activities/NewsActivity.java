@@ -62,5 +62,6 @@ public class NewsActivity extends AppCompatActivity {
         intentReadMore.putExtra("url", url);
         startActivity(intentReadMore);
 
+
     }
 }
